@@ -1,0 +1,12 @@
+---
+
+- hosts: default
+  roles:
+    - role: users
+      tags: users
+    - role: installsudo
+      tags: installsudo
+    - role: sshd
+      tags: sshd
+    - role: 6in4
+      tags: 6in4

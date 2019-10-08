@@ -1,0 +1,27 @@
+---
+
+- name: install dnsutils
+  apt:
+    name: dnsutils
+    update_cache: yes
+
+- name: Create directory if it does not exist
+  file:
+    path: /opt/6in4/
+    state: directory
+    mode: '0755'
+
+- name: create floatingipconfig
+  template:
+    src: 6in4.sh.j2
+    dest: /opt/6in4/6in4.sh
+    backup: yes
+    owner: root
+    group: root
+    mode: 0700
+
+- name: create crontab entry to run every minute
+  cron:
+    name: "6in4"
+    minute: "0"
+    job: "/opt/6in4/6in4.sh > /dev/null"

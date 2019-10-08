@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+ip_old=$(cat lastip)
+ip_new=$(dig +short {{ sixinfour_remote_dns }} | tail -n1)
+
+echo $ip_old > lastip
+
+if [ "$ip_old" = "$ip_new" ]; then
+	echo "IP has not changed"
+
+else
+	echo "Tunnelconfiguration will be updated"
+	ip tunnel del {{ sixinfour_devicename }}
+	ip tunnel add {{ sixinfour_devicename }} mode sit remote $ip_new local {{ sixinfour_local_ipv4 }} ttl 255
+	ip link set {{ sixinfour_devicename }} up
+	ip addr add {{ sixinfour_local_ipv6 }} dev {{ sixinfour_devicename }}
+	ip route add {{ sixinfour_remote_ipv6 }} dev {{ sixinfour_devicename }}
+	ip -f inet6 addr
+fi
+
+exit

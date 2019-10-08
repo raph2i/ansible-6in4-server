@@ -1,0 +1,17 @@
+---
+
+default:
+  hosts:
+    somehost.somedomain.tld:
+      ansible_user: user
+  vars:
+    sixinfour_remote_dns: "IPv4.Adress.of.your.Home"
+    sixinfour_local_ipv4: "IPv4.Adress.of.your.VPS"
+    sixinfour_local_ipv6: "IP:v6:Tunnel::/64"
+    sixinfour_remote_ipv6: "IP:v6:usable:prefix::/64"
+    sixinfour_devicename: "6in4"
+
+all:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
